@@ -1,9 +1,6 @@
 # Environment
 .env
 
-# UV
-uv.lock
-
 # Python
 __pycache__/
 *.py[cod]
