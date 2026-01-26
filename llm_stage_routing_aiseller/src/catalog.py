@@ -1,0 +1,494 @@
+"""
+Mock product catalog generation.
+
+Creates a JSON catalog with 20-40 products across multiple categories.
+The catalog is auto-generated if catalog.json doesn't exist.
+"""
+
+import json
+from pathlib import Path
+
+# Catalog file path (relative to project root)
+CATALOG_PATH = Path(__file__).parent.parent / "catalog.json"
+
+
+def generate_catalog() -> list[dict]:
+    """
+    Generate a mock product catalog with varied categories and prices.
+    All prices are in PEN (Peruvian soles).
+    """
+    products = []
+    
+    # ==========================================================================
+    # SHOES (8 products)
+    # ==========================================================================
+    shoes = [
+        {
+            "id": "p_001",
+            "title": "Running Shoes Pro X",
+            "category": "shoes",
+            "brand": "SportMax",
+            "price": 299.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": ["39", "40", "41", "42", "43"],
+            "tags": ["running", "sport", "breathable"],
+            "in_stock": True,
+            "description": "Lightweight running shoes with advanced cushioning for long-distance runners."
+        },
+        {
+            "id": "p_002",
+            "title": "Urban Walker Sneakers",
+            "category": "shoes",
+            "brand": "CityStep",
+            "price": 189.0,
+            "currency": "PEN",
+            "color": "white",
+            "size": ["38", "39", "40", "41", "42"],
+            "tags": ["casual", "walking", "comfort"],
+            "in_stock": True,
+            "description": "Comfortable sneakers perfect for everyday urban walking."
+        },
+        {
+            "id": "p_003",
+            "title": "Trail Blazer Hiking Boots",
+            "category": "shoes",
+            "brand": "MountainGear",
+            "price": 450.0,
+            "currency": "PEN",
+            "color": "brown",
+            "size": ["40", "41", "42", "43", "44"],
+            "tags": ["hiking", "outdoor", "waterproof"],
+            "in_stock": True,
+            "description": "Waterproof hiking boots with excellent ankle support for rugged terrain."
+        },
+        {
+            "id": "p_004",
+            "title": "Sprint Lite Running Shoes",
+            "category": "shoes",
+            "brand": "SportMax",
+            "price": 199.0,
+            "currency": "PEN",
+            "color": "blue",
+            "size": ["39", "40", "41", "42"],
+            "tags": ["running", "lightweight", "sport"],
+            "in_stock": True,
+            "description": "Ultra-lightweight running shoes for speed training."
+        },
+        {
+            "id": "p_005",
+            "title": "Classic Leather Loafers",
+            "category": "shoes",
+            "brand": "Elegante",
+            "price": 350.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": ["40", "41", "42", "43"],
+            "tags": ["formal", "leather", "classic"],
+            "in_stock": True,
+            "description": "Timeless leather loafers for formal occasions."
+        },
+        {
+            "id": "p_006",
+            "title": "Gym Training Shoes",
+            "category": "shoes",
+            "brand": "FitPro",
+            "price": 249.0,
+            "currency": "PEN",
+            "color": "gray",
+            "size": ["39", "40", "41", "42", "43"],
+            "tags": ["gym", "training", "stability"],
+            "in_stock": True,
+            "description": "Stable training shoes designed for weightlifting and gym workouts."
+        },
+        {
+            "id": "p_007",
+            "title": "Beach Sandals Comfort",
+            "category": "shoes",
+            "brand": "SunWalk",
+            "price": 79.0,
+            "currency": "PEN",
+            "color": "navy",
+            "size": ["38", "39", "40", "41", "42"],
+            "tags": ["sandals", "beach", "casual"],
+            "in_stock": True,
+            "description": "Comfortable sandals with cushioned soles, perfect for the beach."
+        },
+        {
+            "id": "p_008",
+            "title": "Kids Running Shoes",
+            "category": "shoes",
+            "brand": "SportMax",
+            "price": 149.0,
+            "currency": "PEN",
+            "color": "red",
+            "size": ["32", "33", "34", "35", "36"],
+            "tags": ["kids", "running", "sport"],
+            "in_stock": False,
+            "description": "Fun and durable running shoes for active kids."
+        },
+    ]
+    products.extend(shoes)
+    
+    # ==========================================================================
+    # HEADPHONES (7 products)
+    # ==========================================================================
+    headphones = [
+        {
+            "id": "p_101",
+            "title": "Wireless Pro Headphones",
+            "category": "headphones",
+            "brand": "SoundWave",
+            "price": 499.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": [],
+            "tags": ["wireless", "bluetooth", "noise-canceling", "premium"],
+            "in_stock": True,
+            "description": "Premium wireless headphones with active noise cancellation and 30-hour battery."
+        },
+        {
+            "id": "p_102",
+            "title": "Budget Wireless Earbuds",
+            "category": "headphones",
+            "brand": "EchoSound",
+            "price": 89.0,
+            "currency": "PEN",
+            "color": "white",
+            "size": [],
+            "tags": ["wireless", "earbuds", "budget", "bluetooth"],
+            "in_stock": True,
+            "description": "Affordable wireless earbuds with decent sound quality and 6-hour battery."
+        },
+        {
+            "id": "p_103",
+            "title": "Gaming Headset RGB",
+            "category": "headphones",
+            "brand": "GameAudio",
+            "price": 279.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": [],
+            "tags": ["gaming", "microphone", "rgb", "surround"],
+            "in_stock": True,
+            "description": "Gaming headset with 7.1 surround sound, RGB lighting, and detachable microphone."
+        },
+        {
+            "id": "p_104",
+            "title": "Sport Earbuds Waterproof",
+            "category": "headphones",
+            "brand": "FitAudio",
+            "price": 199.0,
+            "currency": "PEN",
+            "color": "blue",
+            "size": [],
+            "tags": ["sport", "waterproof", "wireless", "earbuds"],
+            "in_stock": True,
+            "description": "Sweat-proof wireless earbuds designed for workouts with secure ear hooks."
+        },
+        {
+            "id": "p_105",
+            "title": "Studio Monitor Headphones",
+            "category": "headphones",
+            "brand": "ProAudio",
+            "price": 650.0,
+            "currency": "PEN",
+            "color": "silver",
+            "size": [],
+            "tags": ["studio", "professional", "wired", "flat-response"],
+            "in_stock": True,
+            "description": "Professional studio headphones with flat frequency response for audio production."
+        },
+        {
+            "id": "p_106",
+            "title": "Kids Safe Headphones",
+            "category": "headphones",
+            "brand": "KidSafe",
+            "price": 69.0,
+            "currency": "PEN",
+            "color": "pink",
+            "size": [],
+            "tags": ["kids", "volume-limited", "safe", "wired"],
+            "in_stock": True,
+            "description": "Volume-limited headphones designed to protect children's hearing."
+        },
+        {
+            "id": "p_107",
+            "title": "Noise Canceling Earbuds Pro",
+            "category": "headphones",
+            "brand": "SoundWave",
+            "price": 399.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": [],
+            "tags": ["wireless", "earbuds", "noise-canceling", "premium"],
+            "in_stock": True,
+            "description": "Compact earbuds with premium noise cancellation and 8-hour battery."
+        },
+    ]
+    products.extend(headphones)
+    
+    # ==========================================================================
+    # BACKPACKS (6 products)
+    # ==========================================================================
+    backpacks = [
+        {
+            "id": "p_201",
+            "title": "Laptop Backpack Pro",
+            "category": "backpacks",
+            "brand": "TechCarry",
+            "price": 189.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": ["25L"],
+            "tags": ["laptop", "work", "padded", "usb-port"],
+            "in_stock": True,
+            "description": "Professional laptop backpack with padded compartment for up to 15.6\" laptops and USB charging port."
+        },
+        {
+            "id": "p_202",
+            "title": "Hiking Backpack 40L",
+            "category": "backpacks",
+            "brand": "MountainGear",
+            "price": 320.0,
+            "currency": "PEN",
+            "color": "green",
+            "size": ["40L"],
+            "tags": ["hiking", "outdoor", "large", "rain-cover"],
+            "in_stock": True,
+            "description": "Large hiking backpack with rain cover, multiple compartments, and hip belt support."
+        },
+        {
+            "id": "p_203",
+            "title": "Urban Daily Backpack",
+            "category": "backpacks",
+            "brand": "CityStep",
+            "price": 129.0,
+            "currency": "PEN",
+            "color": "navy",
+            "size": ["20L"],
+            "tags": ["casual", "daily", "compact"],
+            "in_stock": True,
+            "description": "Compact everyday backpack perfect for commuting and casual use."
+        },
+        {
+            "id": "p_204",
+            "title": "School Backpack Kids",
+            "category": "backpacks",
+            "brand": "KidSafe",
+            "price": 89.0,
+            "currency": "PEN",
+            "color": "red",
+            "size": ["15L"],
+            "tags": ["kids", "school", "colorful", "lightweight"],
+            "in_stock": True,
+            "description": "Lightweight school backpack for kids with fun designs and reflective strips."
+        },
+        {
+            "id": "p_205",
+            "title": "Travel Backpack 50L",
+            "category": "backpacks",
+            "brand": "Voyager",
+            "price": 450.0,
+            "currency": "PEN",
+            "color": "gray",
+            "size": ["50L"],
+            "tags": ["travel", "large", "carry-on", "expandable"],
+            "in_stock": True,
+            "description": "Large travel backpack that meets carry-on requirements with expandable design."
+        },
+        {
+            "id": "p_206",
+            "title": "Minimalist Daypack",
+            "category": "backpacks",
+            "brand": "Urban",
+            "price": 99.0,
+            "currency": "PEN",
+            "color": "white",
+            "size": ["15L"],
+            "tags": ["minimalist", "light", "casual"],
+            "in_stock": True,
+            "description": "Sleek minimalist daypack for light daily carry."
+        },
+    ]
+    products.extend(backpacks)
+    
+    # ==========================================================================
+    # JACKETS (6 products)
+    # ==========================================================================
+    jackets = [
+        {
+            "id": "p_301",
+            "title": "Rain Jacket Waterproof",
+            "category": "jackets",
+            "brand": "WeatherShield",
+            "price": 280.0,
+            "currency": "PEN",
+            "color": "blue",
+            "size": ["S", "M", "L", "XL"],
+            "tags": ["rain", "waterproof", "packable", "outdoor"],
+            "in_stock": True,
+            "description": "Lightweight waterproof rain jacket that packs into its own pocket."
+        },
+        {
+            "id": "p_302",
+            "title": "Winter Down Jacket",
+            "category": "jackets",
+            "brand": "ArcticWarm",
+            "price": 550.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": ["S", "M", "L", "XL", "XXL"],
+            "tags": ["winter", "down", "warm", "insulated"],
+            "in_stock": True,
+            "description": "Premium down-insulated jacket for extreme cold weather."
+        },
+        {
+            "id": "p_303",
+            "title": "Running Windbreaker",
+            "category": "jackets",
+            "brand": "SportMax",
+            "price": 180.0,
+            "currency": "PEN",
+            "color": "neon-yellow",
+            "size": ["S", "M", "L", "XL"],
+            "tags": ["running", "windbreaker", "reflective", "lightweight"],
+            "in_stock": True,
+            "description": "Lightweight windbreaker with reflective details for night running."
+        },
+        {
+            "id": "p_304",
+            "title": "Casual Denim Jacket",
+            "category": "jackets",
+            "brand": "Urban",
+            "price": 220.0,
+            "currency": "PEN",
+            "color": "blue",
+            "size": ["S", "M", "L", "XL"],
+            "tags": ["casual", "denim", "classic", "fashion"],
+            "in_stock": True,
+            "description": "Classic denim jacket for casual everyday style."
+        },
+        {
+            "id": "p_305",
+            "title": "Fleece Zip-Up Jacket",
+            "category": "jackets",
+            "brand": "CozyWear",
+            "price": 150.0,
+            "currency": "PEN",
+            "color": "gray",
+            "size": ["S", "M", "L", "XL"],
+            "tags": ["fleece", "warm", "casual", "layering"],
+            "in_stock": True,
+            "description": "Soft fleece jacket perfect for layering or cool weather."
+        },
+        {
+            "id": "p_306",
+            "title": "Kids Puffer Jacket",
+            "category": "jackets",
+            "brand": "KidSafe",
+            "price": 180.0,
+            "currency": "PEN",
+            "color": "red",
+            "size": ["4-5Y", "6-7Y", "8-9Y", "10-11Y"],
+            "tags": ["kids", "puffer", "warm", "winter"],
+            "in_stock": True,
+            "description": "Warm and cozy puffer jacket for kids with fun colors."
+        },
+    ]
+    products.extend(jackets)
+    
+    # ==========================================================================
+    # WATCHES (5 products)
+    # ==========================================================================
+    watches = [
+        {
+            "id": "p_401",
+            "title": "Sport Smartwatch Pro",
+            "category": "watches",
+            "brand": "FitTech",
+            "price": 699.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": [],
+            "tags": ["smartwatch", "fitness", "gps", "heart-rate"],
+            "in_stock": True,
+            "description": "Advanced smartwatch with GPS, heart rate monitor, and 7-day battery life."
+        },
+        {
+            "id": "p_402",
+            "title": "Classic Analog Watch",
+            "category": "watches",
+            "brand": "Elegante",
+            "price": 450.0,
+            "currency": "PEN",
+            "color": "silver",
+            "size": [],
+            "tags": ["analog", "classic", "leather", "formal"],
+            "in_stock": True,
+            "description": "Elegant analog watch with leather strap for formal occasions."
+        },
+        {
+            "id": "p_403",
+            "title": "Budget Fitness Band",
+            "category": "watches",
+            "brand": "FitBasic",
+            "price": 99.0,
+            "currency": "PEN",
+            "color": "black",
+            "size": [],
+            "tags": ["fitness", "budget", "steps", "sleep"],
+            "in_stock": True,
+            "description": "Affordable fitness band with step counting and sleep tracking."
+        },
+        {
+            "id": "p_404",
+            "title": "Diving Watch Professional",
+            "category": "watches",
+            "brand": "DeepSea",
+            "price": 890.0,
+            "currency": "PEN",
+            "color": "blue",
+            "size": [],
+            "tags": ["diving", "waterproof", "professional", "200m"],
+            "in_stock": True,
+            "description": "Professional diving watch water-resistant to 200 meters."
+        },
+        {
+            "id": "p_405",
+            "title": "Kids Digital Watch",
+            "category": "watches",
+            "brand": "KidSafe",
+            "price": 59.0,
+            "currency": "PEN",
+            "color": "green",
+            "size": [],
+            "tags": ["kids", "digital", "colorful", "durable"],
+            "in_stock": True,
+            "description": "Durable digital watch for kids with easy-to-read display."
+        },
+    ]
+    products.extend(watches)
+    
+    return products
+
+
+def load_or_create_catalog() -> list[dict]:
+    """
+    Load catalog from file, or create it if it doesn't exist.
+    """
+    if CATALOG_PATH.exists():
+        with open(CATALOG_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    
+    # Generate and save catalog
+    catalog = generate_catalog()
+    with open(CATALOG_PATH, "w", encoding="utf-8") as f:
+        json.dump(catalog, f, indent=2, ensure_ascii=False)
+    
+    print(f"📦 Created catalog with {len(catalog)} products at {CATALOG_PATH}")
+    return catalog
+
+
+# Load catalog on module import
+CATALOG = load_or_create_catalog()

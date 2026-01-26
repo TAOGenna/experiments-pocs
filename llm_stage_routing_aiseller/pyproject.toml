@@ -1,0 +1,20 @@
+[project]
+name = "catalog-chatbot-poc"
+version = "0.1.0"
+description = "POC of a catalog seller chatbot using LangGraph stage routing"
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=0.2.0",
+    "langchain>=0.3.0",
+    "langchain-openai>=0.2.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "langsmith>=0.1.0",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
