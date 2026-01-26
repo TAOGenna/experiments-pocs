@@ -38,25 +38,25 @@ flowchart TB
         U[User Message]
     end
 
-    subgraph Router["Router Node (cheap LLM)"]
+    subgraph Router["Router Node - cheap LLM"]
         R{Classify Intent}
     end
 
     subgraph Specialists["Specialist Nodes"]
-        G[GREETING<br/>Simple responses]
-        D[DISCOVERY<br/>Extract slots/preferences]
-        S[SHORTLIST<br/>query→search→pitch]
-        C[CHECKOUT<br/>parse selection + info]
-        CF[CONFIRM<br/>Generate order ID]
-        SP[SUPPORT<br/>Handle edge cases]
+        G["GREETING"]
+        D["DISCOVERY"]
+        S["SHORTLIST"]
+        C["CHECKOUT"]
+        CF["CONFIRM"]
+        SP["SUPPORT"]
     end
 
-    subgraph State["Explicit State (Python)"]
-        ST[ConversationState<br/>• stage: Stage enum<br/>• slots: Slots<br/>• cart: list<br/>• checkout: CheckoutInfo<br/>• memory_summary: str]
+    subgraph State["Explicit State in Python"]
+        ST["ConversationState: stage, slots, cart, checkout, memory"]
     end
 
     subgraph Memory
-        M[Memory Update Node<br/>Keep rolling summary short]
+        M["Memory Update Node"]
     end
 
     U --> R
@@ -88,6 +88,61 @@ flowchart TB
 - **Explicit state transitions**: Stage enum controls flow
 - **Small, focused prompts**: Each specialist has ~20-30 line prompt
 
+#### Detailed View: Specialist Nodes with Tool Calls
+
+Each specialist performs **bounded, deterministic work** - the tool calls are hardcoded in the node logic, not decided by the LLM in a loop.
+
+```mermaid
+flowchart LR
+    subgraph SHORTLIST["SHORTLIST Node - 3 fixed steps"]
+        S1["1. Query Writer LLM"]
+        S2["2. product_search()"]
+        S3["3. Pitch Writer LLM"]
+        S1 --> S2 --> S3
+    end
+
+    subgraph CHECKOUT["CHECKOUT Node"]
+        C1["Product Selector LLM"]
+        C2["CartStore.add_item()"]
+        C3["CartStore.set_checkout_info()"]
+        C1 --> C2 --> C3
+    end
+
+    subgraph CONFIRM["CONFIRM Node"]
+        CF1["CartStore.get_cart_details()"]
+        CF2["Generate Order ID"]
+        CF3["CartStore.full_reset()"]
+        CF1 --> CF2 --> CF3
+    end
+
+    subgraph SUPPORT["SUPPORT Node"]
+        SP1["CartStore.get_cart_summary()"]
+        SP2["Support LLM"]
+        SP1 --> SP2
+    end
+
+    subgraph Tools["Shared Tools"]
+        PS[("product_search")]
+        CS[("CartStore")]
+    end
+
+    S2 -.-> PS
+    C2 -.-> CS
+    C3 -.-> CS
+    CF1 -.-> CS
+    CF3 -.-> CS
+    SP1 -.-> CS
+
+    style PS fill:#e8f5e9
+    style CS fill:#e8f5e9
+    style SHORTLIST fill:#e3f2fd
+    style CHECKOUT fill:#fff3e0
+    style CONFIRM fill:#f3e5f5
+    style SUPPORT fill:#fce4ec
+```
+
+**Key difference from ReAct**: Tool calls are **hardcoded in each node's Python code**, not decided by the LLM. The LLM only generates text/JSON; the orchestration is deterministic.
+
 ### ReAct Agent
 
 The ReAct approach uses a **single agent with one comprehensive prompt** (~100 lines) that handles all scenarios. The agent has access to tools and can call them in an open-ended loop until it decides to respond. State is managed implicitly in the conversation history.
@@ -99,28 +154,28 @@ flowchart TB
     end
 
     subgraph Agent["ReAct Agent"]
-        P[Giant System Prompt<br/>~100 lines covering ALL scenarios]
+        P["Giant System Prompt ~100 lines"]
         
-        subgraph Loop["Tool Loop (unbounded)"]
+        subgraph Loop["Tool Loop - unbounded"]
             T{Think + Decide}
-            A[Action: Call Tool]
-            O[Observe: Tool Result]
+            A["Action: Call Tool"]
+            O["Observe: Tool Result"]
         end
     end
 
     subgraph Tools["Available Tools"]
-        T1[search_products]
-        T2[add_to_cart]
-        T3[remove_from_cart]
-        T4[get_cart]
-        T5[update_checkout_info]
-        T6[get_checkout_info]
-        T7[confirm_order]
+        T1["search_products"]
+        T2["add_to_cart"]
+        T3["remove_from_cart"]
+        T4["get_cart"]
+        T5["update_checkout_info"]
+        T6["get_checkout_info"]
+        T7["confirm_order"]
     end
 
     subgraph State["Implicit State"]
-        H[Conversation History<br/>Full message log]
-        CS[CartStore<br/>Singleton for persistence]
+        H["Conversation History"]
+        CS["CartStore"]
     end
 
     U --> P
