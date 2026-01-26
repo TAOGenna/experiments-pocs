@@ -92,6 +92,8 @@ flowchart TB
 
 Each specialist performs **bounded, deterministic work** - the tool calls are hardcoded in the node logic, not decided by the LLM in a loop.
 
+Unlike ReAct where the LLM decides which tools to call and when, here the Python code defines a fixed sequence of steps per node. For example, SHORTLIST always runs: (1) LLM generates search query → (2) `product_search()` executes → (3) LLM writes the pitch. This makes behavior predictable, debuggable, and cost-controlled since you know exactly how many LLM calls and tool invocations happen per turn.
+
 ```mermaid
 flowchart LR
     subgraph SHORTLIST["SHORTLIST Node - 3 fixed steps"]
